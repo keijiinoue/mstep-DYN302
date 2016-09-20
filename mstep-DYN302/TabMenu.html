@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MenuTab</title>
+    <style type="text/css">
+        div {
+            font-family: 'Meiryo UI';
+            font-size: 12px;
+            font-weight: normal;
+            color: white;
+            width: 75px;
+            text-align: center;
+            padding: 5px 5px 5px 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,0,0,0.0);
+        }
+
+        div.tanto {
+            background-color: green;
+        }
+
+        div.eigyou {
+            background-color: blue;
+        }
+
+        div.kigyou {
+            background-color: rgb(220, 140, 0);
+        }
+        div.selected{
+            background-color: white;
+            font-weight: bold;
+            color: black;
+            border: 1px solid black;
+        }
+    </style>
+    <script type="text/javascript">
+        //var tabNames = ["tab1", "tab2", "tab3", "tab4", "tab5", "tab6", "tab7", "tab8", "tab9", "tab10", "tab11"];
+        var currentSelectedElmIndex;
+
+        function init(){
+            currentSelectedElmIndex = 1;
+        }
+        function run(elm, index) {
+            var selected = " selected";
+            var addSelected = function (text) { return text + selected; };
+            var removeSelected = function (text) { return text.substr(0, text.indexOf(selected)); };
+            var hasSelected = function (text) { return (0 <= text.indexOf(selected)) ? true : false; };
+            if (!hasSelected(elm.className)) {
+                var currentSelectedElm = document.getElementById("div" + currentSelectedElmIndex);
+                currentSelectedElm.className = removeSelected(currentSelectedElm.className);
+                parent.Xrm.Page.ui.tabs.get("tab" + currentSelectedElmIndex).setVisible(false);
+                elm.className = addSelected(elm.className);
+                parent.Xrm.Page.ui.tabs.get("tab" + index).setVisible(true);
+                currentSelectedElmIndex = index;
+            }
+        }
+    </script>
+</head>
+<body onload="init();" style="margin: 0px; padding: 0px;">
+    <table>
+        <tr>
+            <td>
+                <div id="div1" class="tanto selected" onclick="run(this, 1);">取引先担当者</div>
+            </td>
+            <td>
+                <div id="div2" class="eigyou" onclick="run(this, 2);">営業案件</div>
+            </td>
+            <td>
+                <div id="div3" class="eigyou" style="width: 80px;" onclick="run(this, 3);">サポート案件</div>
+            </td>
+            <td>
+                <div id="div4" class="kigyou" style="width: 80px;" onclick="run(this, 4);">プロファイル</div>
+            </td>
+            <td>
+                <div id="div5" class="kigyou" onclick="run(this, 5);">連絡方法</div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
